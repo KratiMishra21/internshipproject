@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Opportunities | UpStride</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      /* Section background & layout consistency */
+      body {
+        background-color: #0b0b0b;
+        color: #fff;
+        font-family: "Poppins", sans-serif;
+        overflow-x: hidden;
+      }
+
+      .hero-section {
+        text-align: center;
+        padding: 100px 20px 60px;
+        background: linear-gradient(135deg, #171717, #0f0f0f);
+      }
+
+      .hero-section h1 {
+        font-weight: 700;
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-section p {
+        color: #aaa;
+        font-size: 1.1rem;
+      }
+
+      /* Tabs */
+      .nav-tabs {
+        justify-content: center;
+        border: none;
+        margin-bottom: 40px;
+      }
+
+      .nav-tabs .nav-link {
+        color: #aaa;
+        border: none;
+        border-radius: 30px;
+        margin: 0 10px;
+        padding: 10px 25px;
+        background-color: #1a1a1a;
+        transition: all 0.3s ease;
+      }
+
+      .nav-tabs .nav-link.active,
+      .nav-tabs .nav-link:hover {
+        color: #fff;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+      }
+
+      /* Cards */
+      .opportunity-card {
+        background: #121212;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .opportunity-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 0 20px rgba(101, 92, 255, 0.2);
+      }
+
+      .opportunity-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      .card-body {
+        padding: 20px;
+      }
+
+      .card-title {
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      .card-text {
+        color: #aaa;
+        font-size: 0.95rem;
+        min-height: 60px;
+      }
+
+      .btn-custom {
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        border: none;
+        border-radius: 10px;
+        color: #fff;
+        padding: 8px 18px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-custom:hover {
+        opacity: 0.9;
+      }
+
+      footer {
+        margin-top: 60px;
+        padding: 40px 0;
+        text-align: center;
+        color: #aaa;
+        background-color: #0a0a0a;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== Header (same as index.html) ===== -->
+    <header>
+      <!-- Copy your existing navbar structure from index.html here -->
+    </header>
+
+    <!-- ===== Hero Section ===== -->
+    <section class="hero-section">
+      <h1>Explore Exciting Opportunities</h1>
+      <p>
+        Find curated programs, internships, and fellowships to boost your tech
+        journey — tailored for each year of your college life.
+      </p>
+    </section>
+
+    <!-- ===== Tabs Section ===== -->
+    <div class="container my-5">
+      <ul class="nav nav-tabs" id="yearTabs" role="tablist">
+        <li class="nav-item">
+          <button
+            class="nav-link active"
+            id="second-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#second-year"
+            type="button"
+            role="tab"
+          >
+            Second Year
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            id="third-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#third-year"
+            type="button"
+            role="tab"
+          >
+            Third Year
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            id="fourth-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#fourth-year"
+            type="button"
+            role="tab"
+          >
+            Fourth Year
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="yearTabsContent">
+        <!-- ===== Second Year ===== -->
+        <div
+          class="tab-pane fade show active"
+          id="second-year"
+          role="tabpanel"
+          aria-labelledby="second-tab"
+        >
+          <div class="row g-4 mt-3">
+            <div class="col-md-4">
+              <div class="opportunity-card">
+                <img src="assets/google-step.jpg" alt="Google STEP" />
+                <div class="card-body">
+                  <h5 class="card-title">Google STEP Internship</h5>
+                  <p class="card-text">
+                    A 10–12 week internship for 2nd-year undergraduates to
+                    explore software engineering with mentorship and learning
+                    tracks.
+                  </p>
+                  <button
+                    class="btn btn-custom"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailsModal"
+                  >
+                    Tips & Timeline
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="opportunity-card">
+                <img src="assets/uber-sheplusplus.jpg" alt="Uber She++" />
+                <div class="card-body">
+                  <h5 class="card-title">Uber She++</h5>
+                  <p class="card-text">
+                    A diversity initiative for women in tech with workshops,
+                    mentoring, and pre-placement opportunities.
+                  </p>
+                  <button
+                    class="btn btn-custom"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailsModal"
+                  >
+                    Tips & Timeline
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="opportunity-card">
+                <img src="assets/cisco-intern.jpg" alt="Cisco Ideathon" />
+                <div class="card-body">
+                  <h5 class="card-title">Cisco Ideathon</h5>
+                  <p class="card-text">
+                    Ideation-based hackathon leading to internships and
+                    full-time roles for tech innovators.
+                  </p>
+                  <button
+                    class="btn btn-custom"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailsModal"
+                  >
+                    Tips & Timeline
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Third Year ===== -->
+        <div
+          class="tab-pane fade"
+          id="third-year"
+          role="tabpanel"
+          aria-labelledby="third-tab"
+        >
+          <div class="row g-4 mt-3">
+            <div class="col-md-4">
+              <div class="opportunity-card">
+                <img src="assets/microsoft-engage.jpg" alt="Microsoft Engage" />
+                <div class="card-body">
+                  <h5 class="card-title">Microsoft Engage</h5>
+                  <p class="card-text">
+                    A mentorship and project-based program preparing you for
+                    software engineering roles.
+                  </p>
+                  <button
+                    class="btn btn-custom"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailsModal"
+                  >
+                    Tips & Timeline
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Add more 3rd year cards -->
+          </div>
+        </div>
+
+        <!-- ===== Fourth Year ===== -->
+        <div
+          class="tab-pane fade"
+          id="fourth-year"
+          role="tabpanel"
+          aria-labelledby="fourth-tab"
+        >
+          <div class="row g-4 mt-3">
+            <div class="col-md-4">
+              <div class="opportunity-card">
+                <img src="assets/aws-fellowship.jpg" alt="AWS Fellowship" />
+                <div class="card-body">
+                  <h5 class="card-title">AWS Fellowship</h5>
+                  <p class="card-text">
+                    Cloud-based research and project work for final-year
+                    students to prepare for cloud careers.
+                  </p>
+                  <button
+                    class="btn btn-custom"
+                    data-bs-toggle="modal"
+                    data-bs-target="#detailsModal"
+                  >
+                    Tips & Timeline
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Add more 4th year cards -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Modal ===== -->
+    <div
+      class="modal fade"
+      id="detailsModal"
+      tabindex="-1"
+      aria-labelledby="detailsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light rounded-4">
+          <div class="modal-header border-0">
+            <h5 class="modal-title" id="detailsModalLabel">
+              Tips & Timeline
+            </h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li>Applications open: November–December</li>
+              <li>Prepare resume and brush up on DSA basics</li>
+              <li>Practice mock interviews on LeetCode & InterviewBit</li>
+              <li>Build one strong project before applying</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Footer (same as index.html) ===== -->
+    <footer>
+      <!-- Copy your site’s footer here -->
+      <p>© 2025 UpStride | All Rights Reserved</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
