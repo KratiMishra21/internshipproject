@@ -1,366 +1,664 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Opportunities | UpStride</title>
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opportunities</title>
+  <link rel="icon" href="./assets/icons/fav.png" type="image/png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/cohorts.css">
+  <style>
+    /*  Modal and Search Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css" />
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-    <style>
-      /* Section background & layout consistency */
-      body {
-        background-color: #0b0b0b;
-        color: #fff;
-        font-family: "Poppins", sans-serif;
-        overflow-x: hidden;
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 8px 30px rgba(185, 94, 130, 0.3);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
       }
-
-      .hero-section {
-        text-align: center;
-        padding: 100px 20px 60px;
-        background: linear-gradient(135deg, #171717, #0f0f0f);
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
+    }
 
-      .hero-section h1 {
-        font-weight: 700;
-        font-size: 2.8rem;
-        margin-bottom: 15px;
-        background: linear-gradient(90deg, #6a11cb, #2575fc);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+    .modal-content h2 {
+      color: #B95E82;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #F39F9F;
+      padding-bottom: 10px;
+    }
 
-      .hero-section p {
-        color: #aaa;
-        font-size: 1.1rem;
-      }
+    .modal-content p {
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
 
-      /* Tabs */
-      .nav-tabs {
-        justify-content: center;
-        border: none;
-        margin-bottom: 40px;
-      }
+    .modal-content ul {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
 
-      .nav-tabs .nav-link {
-        color: #aaa;
-        border: none;
-        border-radius: 30px;
-        margin: 0 10px;
-        padding: 10px 25px;
-        background-color: #1a1a1a;
-        transition: all 0.3s ease;
-      }
+    .modal-content ul li {
+      color: #333;
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
 
-      .nav-tabs .nav-link.active,
-      .nav-tabs .nav-link:hover {
-        color: #fff;
-        background: linear-gradient(90deg, #6a11cb, #2575fc);
-      }
+    .modal-content strong {
+      color: #B95E82;
+    }
 
-      /* Cards */
-      .opportunity-card {
-        background: #121212;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
-        transition: all 0.3s ease;
-      }
+    .close-btn {
+      color: #B95E82;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
 
-      .opportunity-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 0 20px rgba(101, 92, 255, 0.2);
-      }
+    .close-btn:hover {
+      color: #F39F9F;
+    }
 
-      .opportunity-card img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-      }
+    /* Search Bar Styling */
+    .search-container {
+      margin: 30px 0;
+      text-align: center;
+    }
 
-      .card-body {
-        padding: 20px;
-      }
+    .search-box {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px 20px;
+      border: 2px solid #F39F9F;
+      border-radius: 25px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(243, 159, 159, 0.2);
+    }
 
-      .card-title {
-        color: #fff;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
+    .search-box:focus {
+      outline: none;
+      border-color: #B95E82;
+      box-shadow: 0 4px 12px rgba(185, 94, 130, 0.3);
+    }
+     /* Add flex container and button styling for search bar and track progress button */
+    .search-bar-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
 
-      .card-text {
-        color: #aaa;
-        font-size: 0.95rem;
-        min-height: 60px;
-      }
+    .btn-track-progress {
+      padding: 12px 25px;
+      border: 2px solid #B95E82;
+      background: linear-gradient(135deg, #B95E82, #F39F9F);
+      color: #fff;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(185, 94, 130, 0.2);
+    }
 
-      .btn-custom {
-        background: linear-gradient(90deg, #6a11cb, #2575fc);
-        border: none;
-        border-radius: 10px;
-        color: #fff;
-        padding: 8px 18px;
-        transition: all 0.3s ease;
-      }
+    .btn-track-progress:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(185, 94, 130, 0.3);
+    }
+    /* Year Tabs */
+    .year-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
 
-      .btn-custom:hover {
-        opacity: 0.9;
-      }
+    .year-tab {
+      padding: 10px 25px;
+      border: 2px solid #F39F9F;
+      background: #fff;
+      color: #B95E82;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
 
-      footer {
-        margin-top: 60px;
-        padding: 40px 0;
-        text-align: center;
-        color: #aaa;
-        background-color: #0a0a0a;
-      }
-    </style>
-  </head>
+    .year-tab:hover {
+      background: rgba(243, 159, 159, 0.1);
+      transform: translateY(-2px);
+    }
 
-  <body>
-    <!-- ===== Header (same as index.html) ===== -->
-    <header>
-      <!-- Copy your existing navbar structure from index.html here -->
+    .year-tab.active {
+      background: linear-gradient(135deg, #B95E82, #F39F9F);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(243, 159, 159, 0.4);
+    }
+
+    /* Opportunity Card with Buttons */
+    .opportunity-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid #F39F9F;
+      transition: all 0.3s ease;
+    }
+
+    .opportunity-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(185, 94, 130, 0.2);
+    }
+
+    .opportunity-card h4 {
+      color: #B95E82;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .opportunity-card .company {
+      color: #F39F9F;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .opportunity-card .details {
+      color: #666;
+      font-size: 0.9rem;
+      margin: 8px 0;
+    }
+
+    .opportunity-card .deadline {
+      color: #B95E82;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn-details, .btn-tips {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn-details {
+      background: linear-gradient(135deg, #B95E82, #F39F9F);
+      color: #fff;
+    }
+
+    .btn-details:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(185, 94, 130, 0.3);
+    }
+
+    .btn-tips {
+      background: #FFECC0;
+      color: #B95E82;
+      border: 1px solid #F39F9F;
+    }
+
+    .btn-tips:hover {
+      background: #FFE0A8;
+      transform: translateY(-2px);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: #B95E82;
+      font-size: 1.1rem;
+    }
+
+    .section-title {
+      color: #B95E82;
+      font-weight: 700;
+      font-size: 1.8rem;
+      margin: 40px 0 30px 0;
+      text-align: center;
+    }
+
+    /* Tips & Timeline Section */
+    .tips-section {
+      background: linear-gradient(135deg, rgba(185, 94, 130, 0.05), rgba(243, 159, 159, 0.05));
+      padding: 40px 20px;
+      border-radius: 12px;
+      margin-top: 50px;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .tip-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-top: 3px solid #F39F9F;
+      transition: all 0.3s ease;
+    }
+
+    .tip-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(185, 94, 130, 0.2);
+    }
+
+    .tip-card h5 {
+      color: #B95E82;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .tip-card p {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="d-flex flex-wrap justify-content-center py-3">
+         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+             <svg class="bi me-2" width="40" height="32" aria-hidden="true">
+                <use xlink:href="#bootstrap"></use>
+            </svg> 
+            <span class="fs-4">UpStride</span>
+         </a> 
+         <ul class="nav nav-pills">
+             <li class="nav-item">
+                <a href="index.html" class="nav-link" aria-current="page">Home</a>
+            </li> 
+            <li class="nav-item">
+              <a href="cohorts.html" class="nav-link">Our Cohorts</a>
+            </li>
+            <li class="nav-item">
+              <a href="opportunities.html" class="nav-link active">Opportunities</a>
+            </li> 
+            <li class="nav-item"><a href="resources.html" class="nav-link">Resources</a>
+            </li> 
+            <li class="nav-item"><a href="faqs.html" class="nav-link">FAQs</a>
+            </li> 
+            <li class="nav-item"><a href="aboutus.html" class="nav-link">About</a>
+            </li> 
+        </ul> 
     </header>
 
-    <!-- ===== Hero Section ===== -->
-    <section class="hero-section">
-      <h1>Explore Exciting Opportunities</h1>
-      <p>
-        Find curated programs, internships, and fellowships to boost your tech
-        journey — tailored for each year of your college life.
-      </p>
-    </section>
+    <!-- Hero Section -->
+    <div class="px-4 py-5 my-5 text-center"> 
+        <h1 class="display-5 fw-bold text-body-emphasis">Opportunities</h1> 
+        <div class="col-lg-6 mx-auto"> 
+            <p class="lead mb-4">Unlock your next step in tech. Explore curated opportunities tailored to your year and career aspirations. Apply strategically, grow exponentially.</p> 
+        </div> 
+    </div>
 
-    <!-- ===== Tabs Section ===== -->
-    <div class="container my-5">
-      <ul class="nav nav-tabs" id="yearTabs" role="tablist">
-        <li class="nav-item">
-          <button
-            class="nav-link active"
-            id="second-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#second-year"
-            type="button"
-            role="tab"
-          >
-            Second Year
-          </button>
-        </li>
-        <li class="nav-item">
-          <button
-            class="nav-link"
-            id="third-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#third-year"
-            type="button"
-            role="tab"
-          >
-            Third Year
-          </button>
-        </li>
-        <li class="nav-item">
-          <button
-            class="nav-link"
-            id="fourth-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#fourth-year"
-            type="button"
-            role="tab"
-          >
-            Fourth Year
-          </button>
-        </li>
-      </ul>
+    <!-- Search Bar -->
+    <div class="search-container">
+      <!-- Wrap search box and button in flex container -->
+      <div class="search-bar-wrapper">
+        <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search by company or program name...">
+        <button class="btn-track-progress" onclick="window.location.href='progress-tracker.html'"> Track your progress</button>
+      </div>
+    </div>
 
-      <div class="tab-content" id="yearTabsContent">
-        <!-- ===== Second Year ===== -->
-        <div
-          class="tab-pane fade show active"
-          id="second-year"
-          role="tabpanel"
-          aria-labelledby="second-tab"
-        >
-          <div class="row g-4 mt-3">
-            <div class="col-md-4">
-              <div class="opportunity-card">
-                <img src="assets/google-step.jpg" alt="Google STEP" />
-                <div class="card-body">
-                  <h5 class="card-title">Google STEP Internship</h5>
-                  <p class="card-text">
-                    A 10–12 week internship for 2nd-year undergraduates to
-                    explore software engineering with mentorship and learning
-                    tracks.
-                  </p>
-                  <button
-                    class="btn btn-custom"
-                    data-bs-toggle="modal"
-                    data-bs-target="#detailsModal"
-                  >
-                    Tips & Timeline
-                  </button>
-                </div>
-              </div>
-            </div>
+    <!-- Year Tabs -->
+    <div class="container">
+      <div class="year-tabs">
+        <button class="year-tab active" data-year="2nd">2nd Year</button>
+        <button class="year-tab" data-year="3rd">3rd Year</button>
+        <button class="year-tab" data-year="4th">4th Year</button>
+      </div>
 
-            <div class="col-md-4">
-              <div class="opportunity-card">
-                <img src="assets/uber-sheplusplus.jpg" alt="Uber She++" />
-                <div class="card-body">
-                  <h5 class="card-title">Uber She++</h5>
-                  <p class="card-text">
-                    A diversity initiative for women in tech with workshops,
-                    mentoring, and pre-placement opportunities.
-                  </p>
-                  <button
-                    class="btn btn-custom"
-                    data-bs-toggle="modal"
-                    data-bs-target="#detailsModal"
-                  >
-                    Tips & Timeline
-                  </button>
-                </div>
-              </div>
-            </div>
+      <!-- Opportunities List -->
+      <div id="opportunitiesContainer" class="container">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
 
-            <div class="col-md-4">
-              <div class="opportunity-card">
-                <img src="assets/cisco-intern.jpg" alt="Cisco Ideathon" />
-                <div class="card-body">
-                  <h5 class="card-title">Cisco Ideathon</h5>
-                  <p class="card-text">
-                    Ideation-based hackathon leading to internships and
-                    full-time roles for tech innovators.
-                  </p>
-                  <button
-                    class="btn btn-custom"
-                    data-bs-toggle="modal"
-                    data-bs-target="#detailsModal"
-                  >
-                    Tips & Timeline
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Tips & Timeline Section -->
+    <div class="container tips-section">
+      <h2 class="section-title">Tips & Resources</h2>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <h5>📋 Resume Building</h5>
+          <p>Craft a resume that stands out. Highlight projects, leadership roles, and quantifiable achievements. Keep it concise and impactful.</p>
         </div>
-
-        <!-- ===== Third Year ===== -->
-        <div
-          class="tab-pane fade"
-          id="third-year"
-          role="tabpanel"
-          aria-labelledby="third-tab"
-        >
-          <div class="row g-4 mt-3">
-            <div class="col-md-4">
-              <div class="opportunity-card">
-                <img src="assets/microsoft-engage.jpg" alt="Microsoft Engage" />
-                <div class="card-body">
-                  <h5 class="card-title">Microsoft Engage</h5>
-                  <p class="card-text">
-                    A mentorship and project-based program preparing you for
-                    software engineering roles.
-                  </p>
-                  <button
-                    class="btn btn-custom"
-                    data-bs-toggle="modal"
-                    data-bs-target="#detailsModal"
-                  >
-                    Tips & Timeline
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- Add more 3rd year cards -->
-          </div>
+        <div class="tip-card">
+          <h5>💻 Online Assessment Tips</h5>
+          <p>Practice coding problems on LeetCode and GeeksforGeeks. Focus on DSA fundamentals. Time management is crucial during assessments.</p>
         </div>
-
-        <!-- ===== Fourth Year ===== -->
-        <div
-          class="tab-pane fade"
-          id="fourth-year"
-          role="tabpanel"
-          aria-labelledby="fourth-tab"
-        >
-          <div class="row g-4 mt-3">
-            <div class="col-md-4">
-              <div class="opportunity-card">
-                <img src="assets/aws-fellowship.jpg" alt="AWS Fellowship" />
-                <div class="card-body">
-                  <h5 class="card-title">AWS Fellowship</h5>
-                  <p class="card-text">
-                    Cloud-based research and project work for final-year
-                    students to prepare for cloud careers.
-                  </p>
-                  <button
-                    class="btn btn-custom"
-                    data-bs-toggle="modal"
-                    data-bs-target="#detailsModal"
-                  >
-                    Tips & Timeline
-                  </button>
-                </div>
-              </div>
-            </div>
-            <!-- Add more 4th year cards -->
-          </div>
+        <div class="tip-card">
+          <h5>🗣️ Interview Readiness</h5>
+          <p>Prepare behavioral and technical questions. Practice mock interviews. Research the company thoroughly before your interview.</p>
+        </div>
+        <div class="tip-card">
+          <h5>📅 Application Timeline</h5>
+          <p>Most opportunities open in January-February for internships. Plan ahead, set reminders, and apply early for better chances.</p>
+        </div>
+        <div class="tip-card">
+          <h5>🎯 Strategic Approach</h5>
+          <p>Apply to a mix of dream, target, and safety companies. Customize your approach for internship vs. full-time roles.</p>
+        </div>
+        <div class="tip-card">
+          <h5>🤝 Networking Power</h5>
+          <p>Connect with mentors and alumni. Follow companies on LinkedIn. Referrals can significantly boost your application chances.</p>
         </div>
       </div>
     </div>
 
-    <!-- ===== Modal ===== -->
-    <div
-      class="modal fade"
-      id="detailsModal"
-      tabindex="-1"
-      aria-labelledby="detailsModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark text-light rounded-4">
-          <div class="modal-header border-0">
-            <h5 class="modal-title" id="detailsModalLabel">
-              Tips & Timeline
-            </h5>
-            <button
-              type="button"
-              class="btn-close btn-close-white"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <ul>
-              <li>Applications open: November–December</li>
-              <li>Prepare resume and brush up on DSA basics</li>
-              <li>Practice mock interviews on LeetCode & InterviewBit</li>
-              <li>Build one strong project before applying</li>
-            </ul>
-          </div>
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <div id="modal-body">
+          <!-- Content dynamically populated -->
         </div>
       </div>
     </div>
 
-    <!-- ===== Footer (same as index.html) ===== -->
-    <footer>
-      <!-- Copy your site’s footer here -->
-      <p>© 2025 UpStride | All Rights Reserved</p>
+    <!-- Footer -->
+    <footer class="py-5"> 
+      <div class="container">
+        <div class="row"> 
+          <div class="col-6 col-md-2 mb-3"> 
+            <h5>Explore</h5> 
+            <ul class="nav flex-column"> 
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-white">Home</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="cohorts.html" class="nav-link p-0 text-white">Our Cohorts</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="opportunities.html" class="nav-link p-0 text-white">Opportunities</a>
+              </li>
+              <li class="nav-item mb-2">
+                <a href="resources.html" class="nav-link p-0 text-white">Resources</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="faqs.html" class="nav-link p-0 text-white">FAQs</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="aboutus.html" class="nav-link p-0 text-white">About</a>
+              </li> 
+            </ul> 
+          </div> 
+          <div class="col-6 col-md-2 mb-3"> 
+            <h5>Resources</h5> 
+            <ul class="nav flex-column"> 
+              <li class="nav-item mb-2">
+                <a href="aimlresources.html" class="nav-link p-0 text-white">AI/ML</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="webdevresources.html" class="nav-link p-0 text-white">Web Development</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="cloudresources.html" class="nav-link p-0 text-white">DevOps</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="uiuxresources.html" class="nav-link p-0 text-white">UI/UX</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="productresources.html" class="nav-link p-0 text-white">Product Management</a>
+              </li> 
+            </ul> 
+          </div> 
+          <div class="col-md-5 offset-md-1 mb-3"> 
+            <form> <h5>Subscribe to our newsletter</h5> 
+              <p>Monthly digest of what's new and exciting from us.</p> 
+              <div class="d-flex flex-column flex-sm-row w-100 gap-2"> 
+                <label for="newsletter1" class="visually-hidden">Email address</label> 
+                <input id="newsletter1" type="email" class="form-control" placeholder="Email address"> 
+                <button class="btn btn-primary" type="button">Subscribe</button> 
+              </div> 
+            </form> 
+          </div> 
+        </div> 
+        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top"> 
+          <p>© 2025 UpStride, Inc. All rights reserved.</p> 
+          <ul class="list-unstyled d-flex">
+            <li class="ms-3">
+              <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+                <img src="icons/socials/instagram.svg" alt="Instagram" width="24" height="24" class="social-icon">
+              </a>
+            </li>
+            <li class="ms-3">
+              <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+                <img src="icons/socials/facebook.svg" alt="Facebook" width="24" height="24" class="social-icon">
+              </a>
+            </li>
+            <li class="ms-3">
+              <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn">
+                <img src="icons/socials/linkedin.svg" alt="LinkedIn" width="24" height="24" class="social-icon">
+              </a>
+            </li>
+          </ul>
+        </div> 
+      </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <script>
+      //  Data structure and functionality for opportunities
+      const opportunities = {
+        '2nd': [
+          { name: 'Google STEP', company: 'Google', details: 'Software Engineering Internship for 2nd year students', deadline: 'Feb 2025', description: 'The Google STEP program is designed for 2nd-year students passionate about software development. Duration: 10-12 weeks (Summer). Learn real-world engineering practices and get mentored by Googlers.' },
+          { name: 'Uber She++', company: 'Uber', details: 'Internship for women engineers in 2nd year', deadline: 'Mar 2025', description: 'Uber\'s She++ program focuses on supporting women in tech. Work on impactful projects. Duration: 12 weeks (Summer). Great for networking and career growth.' },
+          { name: 'Microsoft Codess', company: 'Microsoft', details: 'Coding internship for 2nd year students', deadline: 'Feb 2025', description: 'Microsoft Codess is a coding internship program. Strong focus on practical coding skills. Duration: 10 weeks. Mentorship from experienced engineers.' },
+          { name: 'Amazon Propel', company: 'Amazon', details: 'Software development internship', deadline: 'Jan 2025', description: 'Amazon Propel is for students eager to work on large-scale systems. Build scalable solutions. Duration: 12 weeks. Located in AWS offices.' },
+          { name: 'Goldman Sachs Campus', company: 'Goldman Sachs', details: 'Finance tech internship', deadline: 'Feb 2025', description: 'Goldman Sachs Campus program for tech enthusiasts. Learn financial systems architecture. Duration: 10 weeks. Excellent stipend and learning opportunities.' },
+          { name: 'JPMorgan Code for Good', company: 'JPMorgan', details: 'Tech for social impact internship', deadline: 'Mar 2025', description: 'Work on technology solutions for social causes. JPMorgan Code for Good focuses on impactful projects. Duration: 8 weeks. Make a difference!' }
+        ],
+        '3rd': [
+          { name: 'Microsoft Engage', company: 'Microsoft', details: 'Full-time engineer track for 3rd year', deadline: 'Aug 2025', description: 'Microsoft Engage is a full-time offer track. Fast-paced and competitive. Learn cutting-edge tech. Duration: Year-round internship with potential FTE conversion.' },
+          { name: 'Amazon WoW', company: 'Amazon', details: 'Women on Wheels internship', deadline: 'Jul 2025', description: 'Amazon WoW celebrates women engineers. Build scalable systems. Duration: 12 weeks. Based in multiple Amazon offices globally.' },
+          { name: 'Flipkart Runway', company: 'Flipkart', details: 'Campus hiring for tech roles', deadline: 'Sep 2025', description: 'Flipkart Runway is their campus hiring program. Work on e-commerce at scale. Duration: Varies. Great for experienced 3rd year students.' },
+          { name: 'SAP Next-Gen', company: 'SAP', details: 'Future leader internship program', deadline: 'Aug 2025', description: 'SAP Next-Gen develops future tech leaders. Learn enterprise software development. Duration: 12 weeks. High potential FTE conversion.' },
+          { name: 'JP Morgan Quant', company: 'JPMorgan', details: 'Quantitative research internship', deadline: 'Jul 2025', description: 'JP Morgan Quant is for mathematically inclined engineers. Work on algorithmic trading. Duration: 10 weeks. Excellent compensation.' }
+        ],
+        '4th': [
+          { name: 'Google SWE Full-Time', company: 'Google', details: 'Full-time Software Engineer role', deadline: 'Oct 2025', description: 'Google\'s full-time SWE role for graduates. Join a top-tier tech company. Competitive salary and benefits. Work on world-class products at Google.' },
+          { name: 'Adobe Research Fellow', company: 'Adobe', details: 'Research fellowship program', deadline: 'Sep 2025', description: 'Adobe Research offers fellowships for creative technologists. Work on research projects. Duration: Year-long commitment. Flexible, research-focused role.' },
+          { name: 'Microsoft Aspire', company: 'Microsoft', details: 'Full-time FTE conversion', deadline: 'Oct 2025', description: 'Microsoft Aspire converts top performers to full-time. Join Microsoft as a Software Engineer. Excellent career growth opportunities.' },
+          { name: 'Atlassian Early Talent', company: 'Atlassian', details: 'Graduate engineering program', deadline: 'Sep 2025', description: 'Atlassian Early Talent program for fresh graduates. Work on collaboration tools. 2-3 year program with mentorship and structured learning.' },
+          { name: 'Goldman Sachs New Analyst', company: 'Goldman Sachs', details: 'Full-time analyst position', deadline: 'Oct 2025', description: 'Goldman Sachs New Analyst Program. Fast-paced career development. Work in technology or finance roles. Excellent training and mentorship.' }
+        ]
+      };
+
+      // Modal functionality
+      const modal = document.getElementById('modal');
+      const modalBody = document.getElementById('modal-body');
+      const closeBtn = document.querySelector('.close-btn');
+
+      closeBtn.onclick = function() {
+        modal.style.display = 'none';
+      }
+
+      window.onclick = function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      }
+
+      function openModal(type, opportunity) {
+        if (type === 'details') {
+          modalBody.innerHTML = `
+            <h2>${opportunity.name}</h2>
+            <p><strong>Company:</strong> ${opportunity.company}</p>
+            <p><strong>Deadline:</strong> ${opportunity.deadline}</p>
+            <p>${opportunity.description}</p>
+            <p><strong>Application Timeline:</strong></p>
+            <ul>
+              <li>Online Application</li>
+              <li>Online Assessment/Coding Round</li>
+              <li>Technical Interviews</li>
+              <li>HR Round & Offer</li>
+            </ul>
+          `;
+        } else if (type === 'tips') {
+          modalBody.innerHTML = `
+            <h2>Tips for ${opportunity.name}</h2>
+            <p><strong>📋 Resume Tips:</strong></p>
+            <ul>
+              <li>Highlight relevant projects and achievements</li>
+              <li>Quantify your impact with metrics</li>
+              <li>Keep it to one page if possible</li>
+              <li>Tailor it to the role</li>
+            </ul>
+            <p><strong>💻 Preparation Strategy:</strong></p>
+            <ul>
+              <li>Practice DSA on LeetCode (Medium level focus)</li>
+              <li>Review core system design concepts</li>
+              <li>Prepare 2-3 strong projects to discuss</li>
+              <li>Practice behavioral questions (STAR method)</li>
+            </ul>
+            <p><strong>🎯 Application Tips:</strong></p>
+            <ul>
+              <li>Apply within first week of opening</li>
+              <li>Get a referral if possible (increases chances 3-5x)</li>
+              <li>Customize your cover letter</li>
+              <li>Follow up after application</li>
+            </ul>
+          `;
+        }
+        modal.style.display = 'block';
+      }
+
+      // Render opportunities
+      function renderOpportunities(year = '2nd') {
+        const container = document.getElementById('opportunitiesContainer');
+        const ops = opportunities[year];
+        
+        if (ops.length === 0) {
+          container.innerHTML = '<div class="no-results">No opportunities found</div>';
+          return;
+        }
+
+        container.innerHTML = ops.map(op => `
+          <div class="opportunity-card">
+            <h4>${op.name}</h4>
+            <div class="company">🏢 ${op.company}</div>
+            <div class="details">${op.details}</div>
+            <div class="deadline">📅 Deadline: ${op.deadline}</div>
+            <div class="button-group">
+              <button class="btn-details" onclick="openModal('details', ${JSON.stringify(op).replace(/"/g, '&quot;')})">
+                View Details
+              </button>
+              <button class="btn-tips" onclick="openModal('tips', ${JSON.stringify(op).replace(/"/g, '&quot;')})">
+                Tips & Guide
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Search functionality
+      document.getElementById('searchBox').addEventListener('keyup', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        const activeYear = document.querySelector('.year-tab.active').getAttribute('data-year');
+        const container = document.getElementById('opportunitiesContainer');
+        
+        let filtered = opportunities[activeYear].filter(op => 
+          op.name.toLowerCase().includes(searchTerm) || 
+          op.company.toLowerCase().includes(searchTerm)
+        );
+
+        if (filtered.length === 0) {
+          container.innerHTML = `<div class="no-results">No opportunities found for "${searchTerm}"</div>`;
+          return;
+        }
+
+        container.innerHTML = filtered.map(op => `
+          <div class="opportunity-card">
+            <h4>${op.name}</h4>
+            <div class="company">🏢 ${op.company}</div>
+            <div class="details">${op.details}</div>
+            <div class="deadline">📅 Deadline: ${op.deadline}</div>
+            <div class="button-group">
+              <button class="btn-details" onclick="openModal('details', ${JSON.stringify(op).replace(/"/g, '&quot;')})">
+                View Details
+              </button>
+              <button class="btn-tips" onclick="openModal('tips', ${JSON.stringify(op).replace(/"/g, '&quot;')})">
+                Tips & Guide
+              </button>
+            </div>
+          </div>
+        `).join('');
+      });
+
+      // Year tab switching
+      document.querySelectorAll('.year-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          const year = this.getAttribute('data-year');
+          document.getElementById('searchBox').value = '';
+          renderOpportunities(year);
+        });
+      });
+
+      // Initial render
+      renderOpportunities('2nd');
+    </script>
+
+</body>
+</html>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
