@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./assets/icons/fav.png" type="image/png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/cohorts.css">
+    <title>Track Your Progress - UpStride</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #faf8f3 0%, #f5f0e8 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        header nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #B95E82 0%, #F39F9F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #B95E82;
+        }
+
+        /* Enhanced Hero Section with better gradient and typography */
+        .hero {
+            background: linear-gradient(135deg, rgba(185, 94, 130, 0.08) 0%, rgba(243, 159, 159, 0.05) 50%, rgba(255, 236, 192, 0.08) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-radius: 16px;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            color: #333;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #B95E82 0%, #d97db7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Enhanced Overall Progress with gradient background card */
+        .overall-progress {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(185, 94, 130, 0.08);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .progress-header h2 {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .percentage {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #B95E82 0%, #F39F9F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Improved progress bar styling with smoother appearance */
+        .progress-bar-container {
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 28px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #B95E82 0%, #d97db7 100%);
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 40px;
+        }
+
+        /* Enhanced Domain Progress Grid with better card design */
+        .domain-progress {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .domain-card {
+            background: white;
+            padding: 2rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border: 2px solid transparent;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Added gradient background on hover */
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #B95E82 0%, #F39F9F 100%);
+        }
+
+        .domain-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(185, 94, 130, 0.12);
+            border-color: #F39F9F;
+        }
+
+        .domain-card h3 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .domain-progress-small {
+            background-color: #f5f5f5;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 24px;
+            margin-bottom: 0.75rem;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .domain-progress-small-fill {
+            background: linear-gradient(90deg, #B95E82 0%, #d97db7 100%);
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .domain-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #B95E82 0%, #F39F9F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+        }
+
+        /* Improved Goals Section title styling */
+        .goals-section {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(135deg, #B95E82 0%, #d97db7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Enhanced Goal Card design with smoother interactions */
+        .goal-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .goal-card:hover {
+            box-shadow: 0 8px 20px rgba(185, 94, 130, 0.1);
+        }
+
+        .goal-header {
+            background: linear-gradient(135deg, #FFECC0 0%, #FFD9B3 50%, #F39F9F 100%);
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .goal-header:hover {
+            background: linear-gradient(135deg, #FFE0AA 0%, #FFCDA3 50%, #F08F8F 100%);
+        }
+
+        .goal-header h3 {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .goal-header .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            color: #333;
+        }
+
+        .goal-card.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Improved goal content animation and spacing */
+        .goal-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0 1.5rem;
+        }
+
+        .goal-card.active .goal-content {
+            max-height: 600px;
+            padding: 1.5rem;
+        }
+
+        .goal-list {
+            list-style: none;
+        }
+
+        .goal-item {
+            padding: 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+            padding-left: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .goal-item:hover {
+            background-color: #fafafa;
+        }
+
+        .goal-item:last-child {
+            border-bottom: none;
+        }
+
+        .goal-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #B95E82;
+            flex-shrink: 0;
+        }
+
+        .goal-item label {
+            cursor: pointer;
+            flex-grow: 1;
+            color: #333;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .goal-item input[type="checkbox"]:checked + label {
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        /* Enhanced goal progress section styling */
+        .goal-progress {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid #f5f5f5;
+            background-color: #fafafa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-left: -1.5rem;
+            margin-right: -1.5rem;
+            margin-bottom: -1.5rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-info label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+        }
+
+        .progress-info span {
+            background: linear-gradient(135deg, #B95E82 0%, #F39F9F 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .progress-bar-small {
+            background-color: #e8e8e8;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 18px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-bar-small-fill {
+            background: linear-gradient(90deg, #B95E82 0%, #d97db7 100%);
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Tips Section */
+        .tips-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-card {
+            background: linear-gradient(135deg, #fff 0%, #faf8f3 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #f0e8dc;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(185, 94, 130, 0.1);
+        }
+
+        .tip-card h4 {
+            color: #B95E82;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: rgb(243, 159, 159);
+            color: #ecf0f1;
+            margin-top: 4rem;
+            padding: 3rem 2rem 2rem;
+        }
+
+        footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer h4 {
+            color: #fff;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        footer p {
+            color: #bdc3c7;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #F39F9F;
+        }
+
+        footer .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #34495e;
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .domain-progress {
+                grid-template-columns: 1fr;
+            }
+
+            footer .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="d-flex flex-wrap justify-content-center py-3">
+         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+             <svg class="bi me-2" width="40" height="32" aria-hidden="true">
+                <use xlink:href="#bootstrap"></use>
+            </svg> 
+            <span class="fs-4">UpStride</span>
+         </a> 
+         <ul class="nav nav-pills">
+             <li class="nav-item">
+                <a href="index.html" class="nav-link" aria-current="page">Home</a>
+            </li> 
+            <li class="nav-item">
+              <a href="cohorts.html" class="nav-link">Our Cohorts</a>
+            </li>
+            <li class="nav-item">
+              <a href="opportunities.html" class="nav-link active">Opportunities</a>
+            </li> 
+            <li class="nav-item"><a href="resources.html" class="nav-link">Resources</a>
+            </li> 
+            <li class="nav-item"><a href="faqs.html" class="nav-link">FAQs</a>
+            </li> 
+            <li class="nav-item"><a href="aboutus.html" class="nav-link">About</a>
+            </li> 
+        </ul> 
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Track Your Internship Preparation Progress</h1>
+        <p>Visualize your learning journey and stay on top of your goals 🚀</p>
+    </section>
+
+    <!-- Overall Progress -->
+    <section class="overall-progress">
+        <div class="progress-header">
+            <h2 id="statusText">Just getting started! 🚀</h2>
+            <div class="percentage" id="overallPercentage">0%</div>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="overallProgressBar" style="width: 0%;">0%</div>
+        </div>
+    </section>
+
+    <!-- Domain Progress Cards -->
+    <section class="domain-progress">
+        <div class="domain-card">
+            <h3>💻 DSA & Problem Solving</h3>
+            <div class="domain-progress-small">
+                <div class="domain-progress-small-fill" id="dsaFill" style="width: 0%;"></div>
+            </div>
+            <div class="domain-percentage" id="dsaPercentage">0%</div>
+        </div>
+        <div class="domain-card">
+            <h3>🧩 Development Projects</h3>
+            <div class="domain-progress-small">
+                <div class="domain-progress-small-fill" id="devFill" style="width: 0%;"></div>
+            </div>
+            <div class="domain-percentage" id="devPercentage">0%</div>
+        </div>
+        <div class="domain-card">
+            <h3>🧠 Core CS Concepts</h3>
+            <div class="domain-progress-small">
+                <div class="domain-progress-small-fill" id="coreFill" style="width: 0%;"></div>
+            </div>
+            <div class="domain-percentage" id="corePercentage">0%</div>
+        </div>
+        <div class="domain-card">
+            <h3>📄 Resume & Networking</h3>
+            <div class="domain-progress-small">
+                <div class="domain-progress-small-fill" id="resumeFill" style="width: 0%;"></div>
+            </div>
+            <div class="domain-percentage" id="resumePercentage">0%</div>
+        </div>
+        <div class="domain-card">
+            <h3>🗣️ Interview Practice</h3>
+            <div class="domain-progress-small">
+                <div class="domain-progress-small-fill" id="interviewFill" style="width: 0%;"></div>
+            </div>
+            <div class="domain-percentage" id="interviewPercentage">0%</div>
+        </div>
+    </section>
+
+    <!-- Goal Cards Section -->
+    <section class="goals-section">
+        <h2 class="section-title">Your Learning Goals</h2>
+
+        <!-- DSA Goal Card -->
+        <div class="goal-card">
+            <div class="goal-header">
+                <h3>💻 DSA & Problem Solving</h3>
+                <span class="toggle-icon">⌃</span>
+            </div>
+            <div class="goal-content">
+                <ul class="goal-list">
+                    <li class="goal-item">
+                        <input type="checkbox" id="dsa1" class="dsa-checkbox">
+                        <label for="dsa1">100+ Questions Solved on LeetCode</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="dsa2" class="dsa-checkbox">
+                        <label for="dsa2">Mastered Arrays, Strings, Recursion</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="dsa3" class="dsa-checkbox">
+                        <label for="dsa3">Dynamic Programming & Graphs</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="dsa4" class="dsa-checkbox">
+                        <label for="dsa4">Weekly Contest Participation</label>
+                    </li>
+                </ul>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <label>Progress</label>
+                        <span id="dsaProgress">0%</span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div class="progress-bar-small-fill" id="dsaProgressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Development Projects Goal Card -->
+        <div class="goal-card">
+            <div class="goal-header">
+                <h3>🧩 Development Projects</h3>
+                <span class="toggle-icon">⌃</span>
+            </div>
+            <div class="goal-content">
+                <ul class="goal-list">
+                    <li class="goal-item">
+                        <input type="checkbox" id="dev1" class="dev-checkbox">
+                        <label for="dev1">Built 1 Full-Stack Personal Project</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="dev2" class="dev-checkbox">
+                        <label for="dev2">Contributed to Open Source</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="dev3" class="dev-checkbox">
+                        <label for="dev3">Built Team Project / Hackathon Submission</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="dev4" class="dev-checkbox">
+                        <label for="dev4">Deployed Project to Production</label>
+                    </li>
+                </ul>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <label>Progress</label>
+                        <span id="devProgress">0%</span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div class="progress-bar-small-fill" id="devProgressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Core CS Goal Card -->
+        <div class="goal-card">
+            <div class="goal-header">
+                <h3>🧠 Core CS Fundamentals</h3>
+                <span class="toggle-icon">⌃</span>
+            </div>
+            <div class="goal-content">
+                <ul class="goal-list">
+                    <li class="goal-item">
+                        <input type="checkbox" id="core1" class="core-checkbox">
+                        <label for="core1">DBMS & SQL Optimization</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="core2" class="core-checkbox">
+                        <label for="core2">Operating Systems Basics</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="core3" class="core-checkbox">
+                        <label for="core3">Computer Networks & HTTP</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="core4" class="core-checkbox">
+                        <label for="core4">OOP & System Design Principles</label>
+                    </li>
+                </ul>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <label>Progress</label>
+                        <span id="coreProgress">0%</span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div class="progress-bar-small-fill" id="coreProgressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resume & Networking Goal Card -->
+        <div class="goal-card">
+            <div class="goal-header">
+                <h3>📄 Resume & Networking</h3>
+                <span class="toggle-icon">⌃</span>
+            </div>
+            <div class="goal-content">
+                <ul class="goal-list">
+                    <li class="goal-item">
+                        <input type="checkbox" id="resume1" class="resume-checkbox">
+                        <label for="resume1">Resume Reviewed & Polished</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="resume2" class="resume-checkbox">
+                        <label for="resume2">Created Professional LinkedIn Profile</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="resume3" class="resume-checkbox">
+                        <label for="resume3">Added Projects to GitHub with Descriptions</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="resume4" class="resume-checkbox">
+                        <label for="resume4">Networked with 10+ Industry Professionals</label>
+                    </li>
+                </ul>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <label>Progress</label>
+                        <span id="resumeProgress">0%</span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div class="progress-bar-small-fill" id="resumeProgressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interview Practice Goal Card -->
+        <div class="goal-card">
+            <div class="goal-header">
+                <h3>🗣️ Interview Practice</h3>
+                <span class="toggle-icon">⌃</span>
+            </div>
+            <div class="goal-content">
+                <ul class="goal-list">
+                    <li class="goal-item">
+                        <input type="checkbox" id="interview1" class="interview-checkbox">
+                        <label for="interview1">2 Mock Technical Interviews Done</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="interview2" class="interview-checkbox">
+                        <label for="interview2">Practiced Behavioral Questions</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="interview3" class="interview-checkbox">
+                        <label for="interview3">Refined Elevator Pitch & Introduction</label>
+                    </li>
+                    <li class="goal-item">
+                        <input type="checkbox" id="interview4" class="interview-checkbox">
+                        <label for="interview4">Prepared STAR Stories for Interviews</label>
+                    </li>
+                </ul>
+                <div class="goal-progress">
+                    <div class="progress-info">
+                        <label>Progress</label>
+                        <span id="interviewProgress">0%</span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div class="progress-bar-small-fill" id="interviewProgressFill" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tips Section -->
+    <section class="tips-section">
+        <h2 class="section-title">Tips</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <h4>✨ Resume Template</h4>
+                <p>Download a professionally designed resume template optimized for tech roles. Include your projects, skills, and achievements with clear formatting that stands out.</p>
+            </div>
+            <div class="tip-card">
+                <h4>💬 Common HR Questions</h4>
+                <p>Prepare answers for: "Tell me about yourself", "Why do you want to work here?", and "What are your strengths?" Practice with confidence and authenticity.</p>
+            </div>
+            <div class="tip-card">
+                <h4>💻 DSA & Coding Resources</h4>
+                <p>Explore LeetCode, NeetCode, and Striver's A2Z sheet for structured learning. Focus on problem patterns and optimal solutions to strengthen your coding skills.</p>
+            </div>
+            <div class="tip-card">
+                <h4>🧠 System Design Crash Course</h4>
+                <p>Understand scalability, databases, caching, and microservices. Practice designing systems like Twitter, YouTube, or Uber to ace system design rounds.</p>
+            </div>
+            <div class="tip-card">
+                <h4>📅 Month-wise Internship Roadmap</h4>
+                <p>July-Aug: DSA prep | Sept-Oct: Projects | Nov-Dec: Interviews | Jan: Final prep. Stay on track with this timeline for the best results.</p>
+            </div>
+            <div class="tip-card">
+                <h4>🎯 Mock Interview Guide</h4>
+                <p>Schedule mock interviews with mentors, peers, or platforms like Pramp. Record yourself to analyze performance and improve communication clarity.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-5"> 
+      <div class="container">
+        <div class="row"> 
+          <div class="col-6 col-md-2 mb-3"> 
+            <h5>Explore</h5> 
+            <ul class="nav flex-column"> 
+              <li class="nav-item mb-2">
+                <a href="#" class="nav-link p-0 text-white">Home</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="cohorts.html" class="nav-link p-0 text-white">Our Cohorts</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="opportunities.html" class="nav-link p-0 text-white">Opportunities</a>
+              </li>
+              <li class="nav-item mb-2">
+                <a href="resources.html" class="nav-link p-0 text-white">Resources</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="faqs.html" class="nav-link p-0 text-white">FAQs</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="aboutus.html" class="nav-link p-0 text-white">About</a>
+              </li> 
+            </ul> 
+          </div> 
+          <div class="col-6 col-md-2 mb-3"> 
+            <h5>Resources</h5> 
+            <ul class="nav flex-column"> 
+              <li class="nav-item mb-2">
+                <a href="aimlresources.html" class="nav-link p-0 text-white">AI/ML</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="webdevresources.html" class="nav-link p-0 text-white">Web Development</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="cloudresources.html" class="nav-link p-0 text-white">DevOps</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="uiuxresources.html" class="nav-link p-0 text-white">UI/UX</a>
+              </li> 
+              <li class="nav-item mb-2">
+                <a href="productresources.html" class="nav-link p-0 text-white">Product Management</a>
+              </li> 
+            </ul> 
+          </div> 
+          <div class="col-md-5 offset-md-1 mb-3"> 
+            <form> <h5>Subscribe to our newsletter</h5> 
+              <p>Monthly digest of what's new and exciting from us.</p> 
+              <div class="d-flex flex-column flex-sm-row w-100 gap-2"> 
+                <label for="newsletter1" class="visually-hidden">Email address</label> 
+                <input id="newsletter1" type="email" class="form-control" placeholder="Email address"> 
+                <button class="btn btn-primary" type="button">Subscribe</button> 
+              </div> 
+            </form> 
+          </div> 
+        </div> 
+        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top"> 
+          <p>© 2025 UpStride, Inc. All rights reserved.</p> 
+          <ul class="list-unstyled d-flex">
+            <li class="ms-3">
+              <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+                <img src="icons/socials/instagram.svg" alt="Instagram" width="24" height="24" class="social-icon">
+              </a>
+            </li>
+            <li class="ms-3">
+              <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+                <img src="icons/socials/facebook.svg" alt="Facebook" width="24" height="24" class="social-icon">
+              </a>
+            </li>
+            <li class="ms-3">
+              <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn">
+                <img src="icons/socials/linkedin.svg" alt="LinkedIn" width="24" height="24" class="social-icon">
+              </a>
+            </li>
+          </ul>
+        </div> 
+      </div>
+    </footer>
+
+    <script>
+        // Initialize from localStorage with 0% default
+        function initializeProgress() {
+            const savedProgress = localStorage.getItem('progressData');
+            if (savedProgress) {
+                const data = JSON.parse(savedProgress);
+                Object.keys(data).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = data[id];
+                    }
+                });
+            }
+            updateAllProgress();
+        }
+
+        // Save progress to localStorage only when user checks/unchecks
+        function saveProgress() {
+            const progressData = {};
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                progressData[checkbox.id] = checkbox.checked;
+            });
+            localStorage.setItem('progressData', JSON.stringify(progressData));
+        }
+
+        // Calculate progress for a category
+        function calculateCategoryProgress(selector) {
+            const checkboxes = document.querySelectorAll(selector);
+            if (checkboxes.length === 0) return 0;
+            const checked = Array.from(checkboxes).filter(cb => cb.checked).length;
+            return Math.round((checked / checkboxes.length) * 100);
+        }
+
+        // Dynamic status text based on completion percentage
+        function getStatusText(percentage) {
+            if (percentage === 0) return "Just getting started! 🚀";
+            if (percentage < 25) return "Good start! Keep going 💪";
+            if (percentage < 50) return "Solid progress! You're on track 🎯";
+            if (percentage < 75) return "Well-prepared! Almost there 🏆";
+            return "Fully prepared for internship season! 🌟";
+        }
+
+        // Update all progress displays
+        function updateAllProgress() {
+            const categories = [
+                { selector: '.dsa-checkbox', progressId: 'dsaProgress', fillId: 'dsaProgressFill', domainId: 'dsaFill', percentageId: 'dsaPercentage' },
+                { selector: '.dev-checkbox', progressId: 'devProgress', fillId: 'devProgressFill', domainId: 'devFill', percentageId: 'devPercentage' },
+                { selector: '.core-checkbox', progressId: 'coreProgress', fillId: 'coreProgressFill', domainId: 'coreFill', percentageId: 'corePercentage' },
+                { selector: '.resume-checkbox', progressId: 'resumeProgress', fillId: 'resumeProgressFill', domainId: 'resumeFill', percentageId: 'resumePercentage' },
+                { selector: '.interview-checkbox', progressId: 'interviewProgress', fillId: 'interviewProgressFill', domainId: 'interviewFill', percentageId: 'interviewPercentage' }
+            ];
+
+            let totalProgress = 0;
+
+            categories.forEach(cat => {
+                const progress = calculateCategoryProgress(cat.selector);
+                totalProgress += progress;
+
+                document.getElementById(cat.progressId).textContent = progress + '%';
+                document.getElementById(cat.fillId).style.width = progress + '%';
+                document.getElementById(cat.domainId).style.width = progress + '%';
+                document.getElementById(cat.percentageId).textContent = progress + '%';
+            });
+
+            const overallProgress = Math.round(totalProgress / categories.length);
+            document.getElementById('overallPercentage').textContent = overallProgress + '%';
+            document.getElementById('overallProgressBar').style.width = overallProgress + '%';
+            document.getElementById('overallProgressBar').textContent = overallProgress + '%';
+            document.getElementById('statusText').textContent = getStatusText(overallProgress);
+        }
+
+        // Add event listeners to all checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                updateAllProgress();
+                saveProgress();
+            });
+        });
+
+        // Goal card toggle functionality
+        document.querySelectorAll('.goal-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('active');
+            });
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', initializeProgress);
+    </script>
+</body>
+</html>
